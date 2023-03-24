@@ -34,6 +34,7 @@ mod nyumba {
     )]
     pub struct AssetData {
         property_owner: AccountId,
+        property_id:String,
         property_name: String,
         property_location: String,
         property_value: u128,
@@ -48,7 +49,7 @@ mod nyumba {
     pub struct Nyumba {
         users: Mapping<AccountId, UserData>,
         all_users: Vec<UserData>,
-        assets: Mapping<AccountId, AssetData>,
+        assets: Mapping<String, AssetData>,
         all_assets:Vec<AssetData>,
     }
     
@@ -121,13 +122,14 @@ mod nyumba {
             pub fn register_asset(&mut self, property_owner: AccountId, 
                                 property_name: String, property_location: String,
                                 property_value: u128,
-                                token_price: u128, token_symbol: String, 
+                                token_price: u128, token_symbol: String,property_id:String, 
                                 token_name: String) -> bool {
                 let caller = self.env().caller();
-                if self.assets.get(&property_owner).is_some() {
+                if self.assets.get(&property_id).is_some() {
                     return false;
                 }
                 let token_supply = property_value / token_price;
+                let new_property_id = property_id.clone();
 
                 let asset_data = AssetData {
                     property_owner,
@@ -138,10 +140,65 @@ mod nyumba {
                     tokens_owned: BTreeMap::new(),
                     token_price,
                     token_symbol,
+                    property_id: new_property_id,
                     token_name,
                 };
-                self.assets.insert(caller, &asset_data);
+                self.assets.insert(&property_id, &asset_data);
                 self.all_assets.push(asset_data);
+                true
+            }
+
+
+            #[ink(message)]
+            pub fn get_asset(&self, asset_id: String) -> Option<AssetData> {
+                self.assets.get(&asset_id)
+            }
+
+        
+            #[ink(message)]
+            pub fn update_asset(&mut self,  property_owner: AccountId, 
+                        property_name: String, property_location: String,
+                        property_value: u128,
+                        token_price: u128, token_symbol: String,property_id:String, 
+                        token_name: String) -> bool {
+
+                let caller = self.env().caller();
+                if !self.assets.get(&property_id).is_some() {
+                    return false;
+                }
+
+
+                let mut asset_data = self.assets.get(&property_id).unwrap().clone();
+
+                let token_supply = property_value / token_price;
+                let new_property_id = property_id.clone();
+
+                let tokens_owned = asset_data.tokens_owned.clone();
+
+
+                asset_data.property_owner = property_owner;
+                asset_data.property_name = property_name;
+                asset_data.property_location = property_location;
+                asset_data.property_value = property_value;
+                asset_data.token_price = token_price;
+                asset_data.token_symbol = token_symbol;
+                asset_data.property_id = new_property_id;
+                asset_data.token_name = token_name;
+                asset_data.token_supply = token_supply;
+                asset_data.tokens_owned = tokens_owned;
+
+                self.assets.insert(property_id, &asset_data);
+                true
+            }
+
+            #[ink(message)]
+            pub fn delete_asset(&mut self, property_id:String,) -> bool {
+                let caller = self.env().caller();
+                if self.assets.get(&property_id).is_none() {
+                    return false;
+                }
+                let asset_data = self.assets.take(&property_id).unwrap();
+                self.all_assets.retain(|u| u.property_id != property_id);
                 true
             }
 
@@ -214,6 +271,108 @@ mod nyumba {
             let retrieved_user_data = contract.get_user(account_id).unwrap();
             assert_eq!(retrieved_user_data.name, "Alice Sus");
             assert_eq!(retrieved_user_data.email, "alice@gmail.com");
+
+        }
+
+
+        #[ink::test]
+        fn register_asset_test(){
+
+            let mut contract = Nyumba::new();
+            let property_owner = AccountId::from([1; 32]);
+            let property_id = String::from("prop1");
+            let property_name = String::from("Twiga Devs Prop");
+            let property_location = String::from("Remote");
+            let property_value:u128 = 1000000;
+            let token_price:u128 = 30000;
+            let token_symbol = String::from("PRE");
+            let token_name = String::from("Polkadot Reak Estate");
+            let token_supply:u128 = property_value / token_price;
+            let new_property_id = property_id.clone();
+
+
+            // property_owner: AccountId, 
+            // property_name: String, property_location: String,
+            // property_value: u128,
+            // token_price: u128, token_symbol: String,property_id:String, 
+            //token_name: String
+
+
+
+            let register = contract.register_asset(
+                property_owner.clone(),
+                property_name.clone(),
+                property_location.clone(),
+                property_value.clone(),
+                token_price.clone(),
+                token_symbol.clone(),
+                property_id.clone(), 
+                token_name.clone()
+            );
+
+
+                        // Assert
+         assert_eq!(contract.get_asset(property_id), Some(AssetData{property_owner,
+                                                                    property_id: new_property_id,
+                                                                    property_name,
+                                                                    property_location,
+                                                                    property_value,
+                                                                    token_supply,
+                                                                    tokens_owned: BTreeMap::new(),
+                                                                    token_price,
+                                                                    token_symbol,
+                                                                    token_name,}));
+
+        }
+
+
+       #[ink::test]
+        fn update_asset_test(){
+
+            let mut contract = Nyumba::new();
+            let property_owner = AccountId::from([1; 32]);
+            let property_id = String::from("prop1");
+            let property_name = String::from("Twiga Devs Props");
+            let property_location = String::from("Remote");
+            let property_value:u128 = 1000000;
+            let token_price:u128 = 30000;
+            let token_symbol = String::from("PRE");
+            let token_name = String::from("Polkadot Reak Estate");
+            let token_supply:u128 = property_value / token_price;
+            let new_property_id = property_id.clone();
+
+            // Action
+            contract.register_asset(
+                property_owner.clone(),
+                property_name.clone(),
+                property_location.clone(),
+                property_value.clone(),
+                token_price.clone(),
+                token_symbol.clone(),
+                property_id.clone(), 
+                token_name.clone()
+            );
+
+
+            let property_value_updated:u128  = 3000000;
+            let property_name_updated = String::from("Twiga Devs");
+
+            let result = contract.update_asset(
+                                                property_owner.clone(),
+                                                property_name_updated.clone(),
+                                                property_location.clone(),
+                                                property_value_updated.clone(),
+                                                token_price.clone(),
+                                                token_symbol.clone(),
+                                                property_id.clone(), 
+                                                token_name.clone()
+                                            );
+
+            assert_eq!(result, true);
+            let retrieved_asset_data = contract.get_asset(property_id).unwrap();
+
+            assert_eq!(retrieved_asset_data.property_name, "Twiga Devs");
+            assert_eq!(retrieved_asset_data.property_value, 3000000);
 
         }
 
