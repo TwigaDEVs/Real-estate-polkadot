@@ -23,3 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 /substrate-contract/nyumba/Cargo.lock
+/substrate-contract/nyumba/target
+/substrate-contract/erc20/Cargo.lock
