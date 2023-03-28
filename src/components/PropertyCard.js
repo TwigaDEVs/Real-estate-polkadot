@@ -14,6 +14,8 @@ const PropertyCard = ({ name, image, price, type }) => {
       ></div>
       <div>
         {name} | {price} | {type}
+        <br />
+        <button className="w3-button w3-teal">View</button>
       </div>
     </div>
   );

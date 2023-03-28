@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "@polkadot/api": "^10.1.4",
+    "@polkadot/api-contract": "^10.2.1",
+    "@polkadot/keyring": "^11.1.1",
     "@polkadot/types": "^10.1.4",
     "@polkadot/util": "^11.1.1",
     "@testing-library/jest-dom": "^5.16.5",
