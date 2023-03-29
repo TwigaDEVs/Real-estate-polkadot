@@ -81,7 +81,7 @@ mod erc20 {
         #[ink(message)]
         pub fn set_balance(&mut self,new_supply: Balance) -> Result<()> {
             let caller = Self::env().caller();
-            let in_balance = self.balance_of(caller.clone());
+            let in_balance = self.balance_of(caller);
             self.balances.insert(caller, &(in_balance + new_supply));
 
             Self::env().emit_event(Transfer {
@@ -97,7 +97,7 @@ mod erc20 {
         /// Returns the account balance for the specified `owner`.
         #[ink(message)]
         pub fn balance_of(&self, owner: AccountId) -> Balance {
-            self.balances.get(&owner).unwrap_or_default()
+            self.balances.get(owner).unwrap_or_default()
         }
 
         #[ink(message)]
@@ -118,11 +118,11 @@ mod erc20 {
             }
 
             // Update the sender's balance.
-            self.balances.insert(&from, &(from_balance - value));
+            self.balances.insert(from, &(from_balance - value));
 
             // Update the receiver's balance.
             let to_balance = self.balance_of(*to);
-            self.balances.insert(&to, &(to_balance + value));
+            self.balances.insert(to, &(to_balance + value));
 
             self.env().emit_event(Transfer {
                 from: Some(*from),
@@ -142,8 +142,8 @@ mod erc20 {
             value: Balance,
         ) -> Result<()> {
             // Ensure that a sufficient allowance exists.
-            let caller = self.env().caller();
-            let allowance = self.allowance(from.clone(), caller.clone());
+            // let caller = self.env().caller();
+            // let allowance = self.allowance(from.clone(), caller.clone());
             // if allowance < value {
             //     return Err(Error::InsufficientAllowance);
             // }
@@ -160,7 +160,7 @@ mod erc20 {
         pub fn approve(&mut self, spender: AccountId, value: Balance) -> Result<()> {
             // Record the new allowance.
             let owner = self.env().caller();
-            self.allowances.insert(&(owner, spender), &value);
+            self.allowances.insert((owner, spender), &value);
 
             // Notify offchain users of the approval and report success.
             self.env().emit_event(Approval {
