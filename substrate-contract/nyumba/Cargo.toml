@@ -25,7 +25,8 @@ crate-type = [
 
 # You need to add this if you are using division(`/`) in your contract
 [profile.release]
-overflow-checks = false
+overflow-checks = false     # Disable integer overflow checks.
+lto = false                 # Enable full link-time optimization.
 
 [features]
 default = ["std"]
@@ -40,6 +41,5 @@ std = [
 ]
 ink-as-dependency = []
 
-[profile.release]
-overflow-checks = false     # Disable integer overflow checks.
-lto = false                 # Enable full link-time optimization. 
+
+ 
