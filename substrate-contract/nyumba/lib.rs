@@ -24,9 +24,9 @@ mod nyumba {
     impl UserData {
         fn new_user(name: String, email: String, account_id: AccountId) -> Self {
             UserData {
-                name: name,
-                email: email,
-                account_id: account_id,
+                name,
+                email,
+                account_id,
             }
         }
     }
@@ -60,16 +60,16 @@ mod nyumba {
             token_name: String,
         ) -> Self {
             AssetData {
-                property_owner: property_owner,
-                property_id: property_id,
-                property_name: property_name,
-                property_location: property_location,
-                property_value: property_value,
-                token_supply: token_supply,
+                property_owner,
+                property_id,
+                property_name,
+                property_location,
+                property_value,
+                token_supply,
                 tokens_owned: BTreeMap::new(),
-                token_price: token_price,
-                token_symbol: token_symbol,
-                token_name: token_name,
+                token_price,
+                token_symbol,
+                token_name,
             }
         }
     }
@@ -83,6 +83,12 @@ mod nyumba {
         erc20: Erc20,
     }
 
+    impl Default for Nyumba {
+        fn default() -> Self {
+            Self::new()
+        }
+    }
+
     impl Nyumba {
         // nyumba user registration
 
@@ -94,14 +100,14 @@ mod nyumba {
                 all_users: Vec::new(),
                 assets: Mapping::new(),
                 all_assets: Vec::new(),
-                erc20: erc20,
+                erc20,
             }
         }
         //regestering new users
         #[ink(message)]
         pub fn register_user(&mut self, name: String, email: String) -> bool {
             let caller = self.env().caller();
-            if self.users.get(&caller).is_some() {
+            if self.users.get(caller).is_some() {
                 return false;
             }
             let user_data = UserData::new_user(name, email, caller);
@@ -118,16 +124,16 @@ mod nyumba {
 
         #[ink(message)]
         pub fn get_user(&self, user_id: AccountId) -> Option<UserData> {
-            self.users.get(&user_id)
+            self.users.get(user_id)
         }
 
         #[ink(message)]
         pub fn update_user(&mut self, name: String, email: String) -> bool {
             let caller = self.env().caller();
-            if !self.users.get(&caller).is_some() {
+            if !self.users.get(caller).is_some() {
                 return false;
             }
-            let mut user_data = self.users.get(&caller).unwrap().clone();
+            let mut user_data = self.users.get(&caller).unwrap();
             user_data.name = name;
             user_data.email = email;
             self.users.insert(caller, &user_data);
@@ -138,10 +144,10 @@ mod nyumba {
         #[ink(message)]
         pub fn delete_user(&mut self) -> bool {
             let caller = self.env().caller();
-            if self.users.get(&caller).is_none() {
+            if self.users.get(caller).is_none() {
                 return false;
             }
-            let user_data = self.users.take(&caller).unwrap();
+            let user_data = self.users.take(caller).unwrap();
             self.all_users.retain(|u| u.account_id != caller);
             true
         }
