@@ -26,3 +26,15 @@ yarn-error.log*
 /substrate-contract/flipper/Cargo.lock
 /substrate-contract/erc20/Cargo.lock
 /substrate-contract/nyumba/Cargo.lock
+
+node_modules
+.env
+coverage
+coverage.json
+typechain
+typechain-types
+
+# Hardhat files
+cache
+artifacts
+
