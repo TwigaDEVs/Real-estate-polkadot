@@ -14,6 +14,7 @@ erc20 = { path = "../erc20", version="0.1.0", default-features = false, features
 
 scale = { package = "parity-scale-codec", version = "3", default-features = false, features = ["derive"] }
 scale-info = { version = "2.3", default-features = false, features = ["derive"], optional = true }
+cargo-contract = "3.0.0"
 
 [lib]
 name = "nyumba"
@@ -30,16 +31,13 @@ lto = false                 # Enable full link-time optimization.
 
 [features]
 default = ["std"]
-std = [
-    "ink/std",
-    "scale/std",
-    "scale-info/std",
-
-    # You need to include it, otherwise during generation of metadata you will fail,
-    # because rust will not build code related to `std` feature
-    "erc20/std",
-]
+std = ["ink/std", "scale/std", "scale-info/std", "erc20/std"]
 ink-as-dependency = []
+
+[workspace.metadata.dylint]
+libraries = [
+    { git = "https://github.com/trailofbits/dylint", pattern = "examples/general/*" },
+]
 
 
  

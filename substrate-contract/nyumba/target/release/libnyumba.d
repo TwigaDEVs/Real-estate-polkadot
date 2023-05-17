@@ -1,0 +1,1 @@
+/home/ted/Desktop/rust-projects/Real-estate-polkadot/substrate-contract/nyumba/target/release/libnyumba.so: /home/ted/Desktop/rust-projects/Real-estate-polkadot/substrate-contract/erc20/lib.rs /home/ted/Desktop/rust-projects/Real-estate-polkadot/substrate-contract/nyumba/lib.rs

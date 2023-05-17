@@ -1,0 +1,11 @@
+/home/ted/Desktop/rust-projects/Real-estate-polkadot/substrate-contract/nyumba/target/release/deps/ink_metadata-fa0f4ae88f34aa03.rmeta: /home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/lib.rs /home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/layout/mod.rs /home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/layout/validate.rs /home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/specs.rs /home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/utils.rs
+
+/home/ted/Desktop/rust-projects/Real-estate-polkadot/substrate-contract/nyumba/target/release/deps/libink_metadata-fa0f4ae88f34aa03.rlib: /home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/lib.rs /home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/layout/mod.rs /home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/layout/validate.rs /home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/specs.rs /home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/utils.rs
+
+/home/ted/Desktop/rust-projects/Real-estate-polkadot/substrate-contract/nyumba/target/release/deps/ink_metadata-fa0f4ae88f34aa03.d: /home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/lib.rs /home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/layout/mod.rs /home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/layout/validate.rs /home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/specs.rs /home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/utils.rs
+
+/home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/lib.rs:
+/home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/layout/mod.rs:
+/home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/layout/validate.rs:
+/home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/specs.rs:
+/home/ted/.cargo/registry/src/github.com-1ecc6299db9ec823/ink_metadata-4.2.0/src/utils.rs:

@@ -1,0 +1,3 @@
+cargo:rerun-if-changed=build/main.rs
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=/home/ted/Desktop/rust-projects/Real-estate-polkadot/substrate-contract/nyumba/target/release/build/typenum-c1b59b73154591c2/out/consts.rs
+cargo:rustc-env=TYPENUM_BUILD_OP=/home/ted/Desktop/rust-projects/Real-estate-polkadot/substrate-contract/nyumba/target/release/build/typenum-c1b59b73154591c2/out/op.rs
